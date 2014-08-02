@@ -35,6 +35,7 @@ print 'Page: '.$base_uri->as_string."\n";
 my $root = get_root($base_uri);
 
 # Look for items.
+my $key = key();
 my @table = $root->find_by_tag_name('table');
 my $year = 2012;
 foreach my $table (@table) {
@@ -47,7 +48,9 @@ foreach my $table (@table) {
 		($cena_bez_dph, my $poznamka_k_cene)
 			= clean_price($cena_bez_dph);
 		print "- $year: ".encode_utf8($nazev)."\n";
+		$key++;
 		$dt->insert({
+			'Klic' => $key,
 			'Rok' => $year,
 			'Odbor' => $odbor,
 			'Nazev' => $nazev,
@@ -104,4 +107,21 @@ sub remove_trailing {
 	${$string_sr} =~ s/^\s*//ms;
 	${$string_sr} =~ s/\s*$//ms;
 	return;
+}
+
+# Get key.
+sub key {
+	my $ret_ar = eval {
+		$dt->execute('SELECT MAX(Klic) FROM data');
+	};
+	my $key;
+	if ($EVAL_ERROR || ! @{$ret_ar} || ! exists $ret_ar->[0]->{'max(klic)'}
+		|| ! defined $ret_ar->[0]->{'max(klic)'}
+		|| $ret_ar->[0]->{'max(klic)'} == 0) {
+
+		$key = 0;
+	} else {
+		$key = $ret_ar->[0]->{'max(klic)'};
+	}
+	return $key;
 }
