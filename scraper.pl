@@ -81,6 +81,7 @@ sub clean_price {
 	$cena_bez_dph =~ s/\.//gms;
 	$cena_bez_dph =~ s/\s+//gms;
 	$cena_bez_dph =~ s/,00$//ms;
+	$cena_bez_dph =~ s/,/\./ms;
 	$poznamka_k_cene =~ s/^\(//ms;
 	$poznamka_k_cene =~ s/\)$//ms;
 	return ($cena_bez_dph, $poznamka_k_cene);
