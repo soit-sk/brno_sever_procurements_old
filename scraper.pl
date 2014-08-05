@@ -45,6 +45,7 @@ foreach my $table (@table) {
 		my ($odbor, $nazev, $zhotovitel, $cena_bez_dph)
 			= map { $_->as_text }
 			$tr->find_by_tag_name('td');
+		remove_trailing(\$zhotovitel);
 		($cena_bez_dph, my $poznamka_k_cene)
 			= clean_price($cena_bez_dph);
 		print "- $year: ".encode_utf8($nazev)."\n";
