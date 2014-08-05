@@ -102,14 +102,6 @@ sub get_root {
 	return $tree->elementify;
 }
 
-# Removing trailing whitespace.
-sub remove_trailing {
-	my $string_sr = shift;
-	${$string_sr} =~ s/^\s*//ms;
-	${$string_sr} =~ s/\s*$//ms;
-	return;
-}
-
 # Get key.
 sub key {
 	my $ret_ar = eval {
@@ -125,4 +117,12 @@ sub key {
 		$key = $ret_ar->[0]->{'max(klic)'};
 	}
 	return $key;
+}
+
+# Removing trailing whitespace.
+sub remove_trailing {
+	my $string_sr = shift;
+	${$string_sr} =~ s/^\s*//ms;
+	${$string_sr} =~ s/\s*$//ms;
+	return;
 }
